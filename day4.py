@@ -9,14 +9,21 @@ def get_passports(data):
     passport_dict = [dict(field.split(":") for field in passport.split(" ")) for passport in passport_str]
     return passport_dict
 
-def part1(data):
-    passports = get_passports(data)
-    counter = 0
-    for passport in passports:
-        if "cid" in passport and len(passport) == len(fields) or \
-                "cid" not in passport and len(passport) == len(fields) - 1:
-            counter += 1
-    return counter
+def validate(passport):
+    validators = {
+        "byr": validate_byr(passport["byr"]),
+        "iyr": validate_iyr(passport["iyr"]),
+        "eyr": validate_eyr(passport["eyr"]),
+        "hgt": validate_hgt(passport["hgt"]),
+        "hcl": validate_hcl(passport["hcl"]),
+        "ecl": validate_ecl(passport["ecl"]),
+        "pid": validate_pid(passport["pid"])
+    }
+    for key in passport.keys():
+        if key != "cid":
+            if not validators[key]:
+                return False
+    return True
 
 def validate_byr(value):
     return re.match("^[0-9]{4}$", value) and 1920 <= int(value) <= 2002
@@ -40,21 +47,14 @@ def validate_ecl(value):
 def validate_pid(value):
     return re.match("^[0-9]{9}$", value)
 
-def validate(passport):
-    validators = {
-        "byr": validate_byr(passport["byr"]),
-        "iyr": validate_iyr(passport["iyr"]),
-        "eyr": validate_eyr(passport["eyr"]),
-        "hgt": validate_hgt(passport["hgt"]),
-        "hcl": validate_hcl(passport["hcl"]),
-        "ecl": validate_ecl(passport["ecl"]),
-        "pid": validate_pid(passport["pid"])
-    }
-    for key in passport.keys():
-        if key != "cid":
-            if not validators[key]:
-                return False
-    return True
+def part1(data):
+    passports = get_passports(data)
+    counter = 0
+    for passport in passports:
+        if "cid" in passport and len(passport) == len(fields) or \
+                "cid" not in passport and len(passport) == len(fields) - 1:
+            counter += 1
+    return counter
 
 def part2(data):
     passports = get_passports(data)
