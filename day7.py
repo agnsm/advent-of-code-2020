@@ -9,16 +9,6 @@ def get_bags1(rules, color):
             rules.remove(rule)
     return bags
 
-def part1(rules):
-    bags = ["shiny gold"]
-    counter = 0
-    for bag in bags:
-        new_bags = get_bags1(rules, bag)
-        bags += new_bags
-        counter += len(new_bags)
-    return counter
-
-
 def get_bags2(rules, color):
     bags = {}
     for rule in rules:
@@ -31,6 +21,15 @@ def get_bags2(rules, color):
                         key = f"{rule[i+1]} {rule[i+2]}"
                         bags[key] = int(rule[i])
     return bags
+
+def part1(rules):
+    bags = ["shiny gold"]
+    counter = 0
+    for bag in bags:
+        new_bags = get_bags1(rules, bag)
+        bags += new_bags
+        counter += len(new_bags)
+    return counter
 
 def part2(rules):
     bags = {"shiny gold": 1}
