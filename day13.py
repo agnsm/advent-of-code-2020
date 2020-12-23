@@ -14,14 +14,10 @@ def part1(data):
         minutes[bus_id] = timestamps[bus_id] - earliest_timestamp
     return min(minutes.values()) * min(minutes, key=minutes.get)
 
-def part2(data):
-    pass
-
 def main():
     with open("inputs/day13.txt", "r") as f:
         data = [f.readline().rstrip()]
         data += f.readline().rstrip().split(",")
     print(f"ID of the earliest bus multiplied by the number of minutes: {part1(data)}")
-    # print(f"answer: {part2(data)}")
 
 main()
